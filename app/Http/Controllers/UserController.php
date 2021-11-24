@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
@@ -16,6 +17,13 @@ class UserController extends Controller
     public function index()
     {
         //
+        if (request()->ajax()) {
+            return datatables()->of(User::select('*'))
+                ->addColumn('action', 'company-action')
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
         return view('admin.user');
     }
 
@@ -83,5 +91,11 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function json()
+    {
+        // return DataTables::of(User::all())->make(true);
+        return 'dawdaw';
     }
 }

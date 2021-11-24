@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,4 @@ Route::get('/', function () {
 
 Route::get('/admin/index', [AdminController::class, 'index']);
 Route::resource('user', UserController::class);
+Route::get('/data', [DataController::class, 'data'])->name('getUser');
