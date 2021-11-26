@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Alert;
+
 
 class UserController extends Controller
 {
@@ -17,10 +21,15 @@ class UserController extends Controller
     public function index()
     {
         //
+        $user = User::all();
         if (request()->ajax()) {
-            return datatables()->of(User::select('*'))
-                ->addColumn('action', 'company-action')
-                ->rawColumns(['action'])
+
+            return datatables()->of($user)
+                ->addColumn('image', function ($user) {
+                    $image = asset('foto-user/' . $user->foto);
+                    return '<img src="' . $image . '" class="img-fluid rounded-circle mx-auto d-block" />';
+                })->addColumn('action', 'admin.user-action')
+                ->rawColumns(['action', 'image'])
                 ->addIndexColumn()
                 ->make(true);
         }
@@ -35,6 +44,7 @@ class UserController extends Controller
     public function create()
     {
         //
+        return view('admin.user-create');
     }
 
     /**
@@ -46,6 +56,32 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        $nama     = $request->nama;
+        $username = $request->username;
+        $password = $request->password;
+
+        $validator = Validator::make($request->all(), [
+            'nama'        => 'required',
+            'username'    => 'required',
+            'password'    => 'required | confirmed | min:8'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/user/create')->withErrors($validator)
+                ->withInput()->with(['status' => 'Terjadi Kesalahan', 'title' => 'Data User', 'type' => 'error']);
+        }
+
+        $user = new User;
+
+        $user->id_level = 2;
+        $user->foto = 'default.jpg';
+        $user->nama     = $nama;
+        $user->username     = $username;
+        $user->password     = Hash::make($password);
+
+        $user->save();
+
+        return redirect('user')->with(['status' => 'Berhasil Ditambahkan', 'title' => 'Data User', 'type' => 'success']);
     }
 
     /**
