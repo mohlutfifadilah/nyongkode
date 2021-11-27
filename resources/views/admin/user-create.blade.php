@@ -25,12 +25,18 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Level</label>
-                                <select class="form-control" id="exampleFormControlSelect1" name="level">
+                                <select class="form-control @error('level') is-invalid @enderror"
+                                    id="exampleFormControlSelect1" name="level">
                                     <option selected disabled>Pilih Level</option>
                                     <option>Admin</option>
                                     <option>User</option>
                                     <option>Super User</option>
                                 </select>
+                                @error('level')
+                                    <small class="text-danger">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
                             </div>
                         </div>
                     </div>
