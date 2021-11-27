@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\DataController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,10 +16,19 @@ use App\Http\Controllers\DataController;
 |
 */
 
+Route::get('/login', [AuthController::class, 'index']);
+Route::post('/login', [AuthController::class, 'authenticate']);
+Route::get('/logout', 'AuthController@logout');;
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 
-Route::get('/admin/index', [AdminController::class, 'index']);
+Route::get('/admin', function () {
+    return view('admin.index');
+});
+
+
+Route::get('/admin', [AdminController::class, 'index']);
 Route::resource('user', UserController::class);
-Route::get('/data', [DataController::class, 'data'])->name('getUser');
+Route::post('proses_login', [AuthController::class, 'proses_login'])->name('proses_login');

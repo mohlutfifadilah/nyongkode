@@ -76,14 +76,14 @@
                     </div>
                     <ul class="sidebar-menu">
                         <li class="menu-header">Dashboard</li>
-                        <li class="nav-item {{ Request::segment(1) === '' ? 'active' : null }}">
+                        <li class="nav-item {{ Request::segment(1) === 'admin' ? 'active' : null }}">
                             <a href="{{ route('user.index') }}" class="nav-link"><i
                                     class="fas fa-users"></i><span>Dashboard</span></a>
                         </li>
                         <li class="menu-header">Data</li>
                         <li class="nav-item {{ Request::segment(1) === 'user' ? 'active' : null }}">
                             <a href="{{ route('user.index') }}" class="nav-link"><i
-                                    class="fas fa-users"></i><span>User</span></a>
+                                    class="fas fa-users"></i><span>Pengguna</span></a>
                         </li>
                         <li class="menu-header">Starter</li>
                         <li class="nav-item dropdown">

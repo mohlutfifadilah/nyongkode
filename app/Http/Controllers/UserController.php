@@ -168,7 +168,7 @@ class UserController extends Controller
                     'id_level'   => $level,
                     'nama'       => $nama,
                     'username'   => $username,
-                    'password'   => $password,
+                    'password'   => Hash::make($password),
                 ]);
         } else {
             $validator = Validator::make($request->all(), [
@@ -191,7 +191,7 @@ class UserController extends Controller
                     'nama'       => $nama,
                     'email'      => $email,
                     'username'   => $username,
-                    'password'   => $password,
+                    'password'   => Hash::make($password),
                 ]);
         }
 
