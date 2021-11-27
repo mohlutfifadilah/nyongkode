@@ -9,7 +9,7 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Alert;
-
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -28,8 +28,16 @@ class UserController extends Controller
                 ->addColumn('image', function ($user) {
                     $image = asset('foto-user/' . $user->foto);
                     return '<img src="' . $image . '" class="img-fluid rounded-circle mx-auto d-block" />';
+                })->addColumn('level', function ($user) {
+                    if ($user->id_level == 1) {
+                        return 'Admin';
+                    } else if ($user->id_level == 2) {
+                        return 'User';
+                    } else {
+                        return 'Super User';
+                    }
                 })->addColumn('action', 'admin.user-action')
-                ->rawColumns(['action', 'image'])
+                ->rawColumns(['action', 'image', 'level'])
                 ->addIndexColumn()
                 ->make(true);
         }
@@ -56,11 +64,13 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        $level    = $request->level;
         $nama     = $request->nama;
         $username = $request->username;
         $password = $request->password;
 
         $validator = Validator::make($request->all(), [
+            'level'       => 'required',
             'nama'        => 'required',
             'username'    => 'required',
             'password'    => 'required | confirmed | min:8'
@@ -73,9 +83,16 @@ class UserController extends Controller
 
         $user = new User;
 
-        $user->id_level = 2;
-        $user->foto = 'default.jpg';
-        $user->nama     = $nama;
+        if ($level == 'User') {
+            $user->id_level = 2;
+        } else if ($level == 'Admin') {
+            $user->id_level = 1;
+        } else {
+            $user->id_level = 3;
+        }
+
+        $user->foto         = 'default.jpg';
+        $user->nama         = $nama;
         $user->username     = $username;
         $user->password     = Hash::make($password);
 
@@ -104,6 +121,10 @@ class UserController extends Controller
     public function edit($id)
     {
         //
+        $user  = User::find($id);
+        return view('admin.user-edit', [
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -116,6 +137,65 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
+        if ($request->level == 'Admin') {
+            $level = 1;
+        } else if ($request->level == 'User') {
+            $level = 2;
+        } else {
+            $level = 3;
+        }
+        $email    = $request->email;
+        $nama     = $request->nama;
+        $username = $request->username;
+        $password = $request->password;
+
+        if ($email == NULL) {
+            $validator = Validator::make($request->all(), [
+                'level'       => 'required',
+                'nama'        => 'required',
+                'username'    => 'required',
+                'password'    => 'required | confirmed | min:8'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect('/user/' . $id . '/edit')->withErrors($validator)
+                    ->withInput()->with(['status' => 'Terjadi Kesalahan', 'title' => 'Data User', 'type' => 'error']);
+            }
+
+            DB::table('users')
+                ->where('id', $id)
+                ->update([
+                    'id_level'   => $level,
+                    'nama'       => $nama,
+                    'username'   => $username,
+                    'password'   => $password,
+                ]);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'level'       => 'required',
+                'email'       => 'email:rfc,dns | required',
+                'nama'        => 'required',
+                'username'    => 'required',
+                'password'    => 'required | confirmed | min:8'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect('/user/' . $id . '/edit')->withErrors($validator)
+                    ->withInput()->with(['status' => 'Terjadi Kesalahan', 'title' => 'Data User', 'type' => 'error']);
+            }
+
+            DB::table('users')
+                ->where('id', $id)
+                ->update([
+                    'id_level'   => $level,
+                    'nama'       => $nama,
+                    'email'      => $email,
+                    'username'   => $username,
+                    'password'   => $password,
+                ]);
+        }
+
+        return redirect('user')->with(['status' => 'Berhasil Diubah', 'title' => 'Data User', 'type' => 'success']);
     }
 
     /**
@@ -127,11 +207,9 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function json()
-    {
-        // return DataTables::of(User::all())->make(true);
-        return 'dawdaw';
+        $user  = User::find($id);
+        DB::table('users')->where(['id' => $user->id])->delete();
+        $user->delete();
+        return redirect('user')->with(['status' => 'Berhasil Dihapus', 'title' => 'Data User', 'type' => 'success']);
     }
 }

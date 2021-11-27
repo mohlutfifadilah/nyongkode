@@ -1,8 +1,9 @@
-<a href="javascript:void(0)" data-toggle="tooltip" onClick="editFunc({{ $id }})" data-original-title="Edit"
-    class="edit btn btn-success edit">
-    Edit
-</a>
-<a href="javascript:void(0);" id="delete-compnay" onClick="deleteFunc({{ $id }})" data-toggle="tooltip"
-    data-original-title="Delete" class="delete btn btn-danger">
-    Delete
-</a>
+<div class="mx-auto">
+    <a href="user/{{ $id }}/edit" data-toggle="tooltip" class="edit btn btn-warning edit">
+        Edit
+    </a>
+    <button type="submit" class="btn btn-danger remove-user" data-id="{{ $id }}"
+        data-action="{{ route('user.destroy', $id) }}">
+        Hapus
+    </button>
+</div>
