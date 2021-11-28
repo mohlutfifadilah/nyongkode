@@ -78,7 +78,7 @@
                         <li class="menu-header">Dashboard</li>
                         <li class="nav-item {{ request()->is('admin*') ? 'active' : '' }}">
                             <a href="{{ route('admin') }}" class="nav-link"><i
-                                    class="fas fa-users"></i><span>Dashboard</span></a>
+                                    class="fas fa-th-large"></i><span>Dashboard</span></a>
                         </li>
                         <li class="menu-header">Data</li>
                         <li class="nav-item {{ request()->is('user*') ? 'active' : '' }}">
@@ -88,7 +88,11 @@
                         <li class="menu-header">Modul</li>
                         <li class="nav-item {{ request()->is('kategori*') ? 'active' : '' }}">
                             <a href="{{ route('kategori.index') }}" class="nav-link"><i
-                                    class="fas fa-users"></i><span>Kategori</span></a>
+                                    class="fas fa-columns"></i><span>Kategori</span></a>
+                        </li>
+                        <li class="nav-item {{ request()->is('modul*') ? 'active' : '' }}">
+                            <a href="{{ route('modul.index') }}" class="nav-link"><i
+                                    class="fas fa-book"></i><span>Modul</span></a>
                         </li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
