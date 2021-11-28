@@ -1,15 +1,15 @@
 @extends('admin.layouts')
-@section('title', 'Pengguna')
+@section('title', 'Kategori')
 @section('content')
     <!-- Main Content -->
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>User</h1>
+                <h1>Kategori</h1>
             </div>
             <div class="section-body mt-1">
-                <a href="{{ route('user.create') }}" class="btn btn-success float-right mb-3">
-                    <i class="fa fa-plus"></i> Tambah User</a>
+                <a href="{{ route('kategori.create') }}" class="btn btn-success float-right mb-3">
+                    <i class="fa fa-plus"></i> Tambah Kategori</a>
                 @if (session('status'))
                     <script>
                         swal({
@@ -25,11 +25,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Foto</th>
-                            <th>Level</th>
-                            <th>Nama</th>
-                            <th>Username</th>
-                            <th>Email</th>
+                            <th>Nama Kategori</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -43,30 +39,14 @@
             $('#ajax-crud-datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('user.index') }}",
+                ajax: "{{ route('kategori.index') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: ''
                     },
                     {
-                        data: 'image',
-                        name: 'image'
-                    },
-                    {
-                        data: 'level',
-                        name: 'level'
-                    },
-                    {
-                        data: 'nama',
-                        name: 'nama'
-                    },
-                    {
-                        data: 'username',
-                        name: 'username'
-                    },
-                    {
-                        data: 'email',
-                        name: 'email'
+                        data: 'nama_kategori',
+                        name: 'nama_kategori'
                     },
                     {
                         data: 'action',
@@ -75,7 +55,7 @@
                     },
                 ],
                 order: [
-                    [2, 'asc']
+                    [0, 'asc']
                 ]
             });
         });
@@ -83,7 +63,7 @@
             var current_object = $(this);
             swal({
                 title: "Apakah anda yakin ?",
-                text: "Ingin menghapus Pengguna ini",
+                text: "Ingin menghapus Kategori ini",
                 type: "warning",
                 showCancelButton: true,
                 dangerMode: true,

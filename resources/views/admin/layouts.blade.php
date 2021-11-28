@@ -76,19 +76,23 @@
                     </div>
                     <ul class="sidebar-menu">
                         <li class="menu-header">Dashboard</li>
-                        <li class="nav-item {{ Request::segment(1) === 'admin' ? 'active' : null }}">
-                            <a href="{{ route('user.index') }}" class="nav-link"><i
+                        <li class="nav-item {{ request()->is('admin*') ? 'active' : '' }}">
+                            <a href="{{ route('admin') }}" class="nav-link"><i
                                     class="fas fa-users"></i><span>Dashboard</span></a>
                         </li>
                         <li class="menu-header">Data</li>
-                        <li class="nav-item {{ Request::segment(1) === 'user' ? 'active' : null }}">
+                        <li class="nav-item {{ request()->is('user*') ? 'active' : '' }}">
                             <a href="{{ route('user.index') }}" class="nav-link"><i
                                     class="fas fa-users"></i><span>Pengguna</span></a>
                         </li>
-                        <li class="menu-header">Starter</li>
+                        <li class="menu-header">Modul</li>
+                        <li class="nav-item {{ request()->is('kategori*') ? 'active' : '' }}">
+                            <a href="{{ route('kategori.index') }}" class="nav-link"><i
+                                    class="fas fa-users"></i><span>Kategori</span></a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                                    class="fas fa-columns"></i> <span>Layout</span></a>
+                                    class="fas fa-columns"></i> <span>Modul</span></a>
                             <ul class="dropdown-menu">
                                 <li><a class="nav-link" href="layout-default.html">Default Layout</a></li>
                                 <li><a class="nav-link" href="layout-transparent.html">Transparent Sidebar</a>
