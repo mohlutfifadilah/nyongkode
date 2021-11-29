@@ -38,13 +38,17 @@
                                         <i class="fas fa-book-open"></i><span> Sub Modul : </span>
                                     </p>
                                     <div class="float-right">
-                                        <a href="user/{{ $m->id_modul }}/edit" data-toggle="tooltip"
+                                        <a href="{{ route('modul.show', $m->id_modul) }}" data-toggle="tooltip"
+                                            class="edit btn btn-info">
+                                            Detail
+                                        </a>
+                                        <a href="modul/{{ $m->id_modul }}/edit" data-toggle="tooltip"
                                             class="edit btn btn-warning edit">
                                             Edit
                                         </a>
                                         <button type="submit" class="btn btn-danger remove-user"
                                             data-id="{{ $m->id_modul }}"
-                                            data-action="{{ route('user.destroy', $m->id_modul) }}">
+                                            data-action="{{ route('modul.destroy', $m->id_modul) }}">
                                             Hapus
                                         </button>
                                     </div>

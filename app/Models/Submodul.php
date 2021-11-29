@@ -9,7 +9,7 @@ class Submodul extends Model
 {
     use HasFactory;
 
-    protected $table = 'submodul';
+    protected $table = 'sub_modul';
 
     protected $primaryKey = 'id_sub_modul';
 

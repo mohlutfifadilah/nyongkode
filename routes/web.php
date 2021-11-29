@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ModulController;
+use App\Http\Controllers\SubmodulController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,4 +36,6 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 Route::resource('user', UserController::class);
 Route::resource('kategori', KategoriController::class);
 Route::resource('modul', ModulController::class);
+Route::get('submodul/{id_modul}', [SubmodulController::class, 'create']);
+Route::resource('submodul', SubmodulController::class);
 Route::post('proses_login', [AuthController::class, 'proses_login'])->name('proses_login');

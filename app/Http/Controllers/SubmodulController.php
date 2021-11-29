@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Modul;
-use App\Models\Kategorimodul;
+use App\Models\Submodul;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-class ModulController extends Controller
+class SubmodulController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,11 +17,6 @@ class ModulController extends Controller
     public function index()
     {
         //
-        $modul = Modul::all();
-
-        return view('admin.modul', [
-            'modul' => $modul,
-        ]);
     }
 
     /**
@@ -30,13 +24,11 @@ class ModulController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
         //
-        $kategori = Kategorimodul::all();
-
-        return view('admin.modul-create', [
-            'kategori' => $kategori
+        return view('admin.submodul-create', [
+            'id_modul' => $id
         ]);
     }
 
@@ -49,31 +41,28 @@ class ModulController extends Controller
     public function store(Request $request)
     {
         //
-        $kategori     = $request->kategori;
-        $modul     = $request->modul;
-
+        $id_modul = $request->id_modul;
+        $gambar   = $request->gambar;
+        $isi      = $request->isi;
 
         $validator = Validator::make($request->all(), [
-            'kategori'  => 'required',
-            'modul'     => 'required',
+            'isi'  => 'required',
         ]);
 
         if ($validator->fails()) {
-            return redirect('/modul/create')->withErrors($validator)
-                ->withInput()->with(['status' => 'Terjadi Kesalahan', 'title' => 'Data Modul', 'type' => 'error']);
+            return redirect('/submodul/' . $request->id_modul)->withErrors($validator)
+                ->withInput()->with(['status' => 'Terjadi Kesalahan', 'title' => 'Data Sub Modul', 'type' => 'error']);
         }
 
-        $id = DB::table('kategori_modul')->where('nama_kategori', $kategori)->value('id_kategori_modul');
+        $submodul = new Submodul;
 
+        $submodul->id_modul = $id_modul;
+        $submodul->gambar   = $gambar;
+        $submodul->isi      = $isi;
 
-        $in = new Modul;
+        $submodul->save();
 
-        $in->id_kategori_modul = $id;
-        $in->nama_modul     = $modul;
-
-        $in->save();
-
-        return redirect('modul')->with(['status' => 'Berhasil Ditambahkan', 'title' => 'Data Modul', 'type' => 'success']);
+        return redirect('/modul/' . $request->id_modul)->with(['status' => 'Berhasil Ditambahkan', 'title' => 'Data Sub Modul', 'type' => 'success']);
     }
 
     /**
@@ -85,10 +74,6 @@ class ModulController extends Controller
     public function show($id)
     {
         //
-        $modul = Modul::find($id);
-        return view('admin.modul-detail', [
-            'modul' => $modul,
-        ]);
     }
 
     /**
