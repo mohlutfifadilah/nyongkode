@@ -19,23 +19,22 @@ use App\Http\Controllers\SubmodulController;
 |
 */
 
-Route::get('/login', [AuthController::class, 'index']);
-Route::post('/login', [AuthController::class, 'authenticate']);
-Route::get('/logout', 'AuthController@logout');;
+Route::group(['middleware' => ['auth', 'admin']], function () {
+    //
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    Route::resource('user', UserController::class);
+    Route::resource('kategori', KategoriController::class);
+    Route::resource('modul', ModulController::class);
+    Route::get('submodul/{id_modul}', [SubmodulController::class, 'create']);
+    Route::resource('submodul', SubmodulController::class);
+});
 
+// Route::group(['middleware' => ['guest']], function () {
 Route::get('/', function () {
     return view('dashboard');
 });
 
-Route::get('/admin', function () {
-    return view('admin.index');
-});
-
-
-Route::get('/admin', [AdminController::class, 'index'])->name('admin');
-Route::resource('user', UserController::class);
-Route::resource('kategori', KategoriController::class);
-Route::resource('modul', ModulController::class);
-Route::get('submodul/{id_modul}', [SubmodulController::class, 'create']);
-Route::resource('submodul', SubmodulController::class);
-Route::post('proses_login', [AuthController::class, 'proses_login'])->name('proses_login');
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::post('/login', [AuthController::class, 'authenticate']);
+Route::post('/logout', [AuthController::class, 'logout']);;
+// });

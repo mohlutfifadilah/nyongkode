@@ -29,6 +29,12 @@
     <link rel="stylesheet" href="{{ url('stisla/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ url('stisla/assets/css/components.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <style>
+        #unik {
+            font-size: 13px;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -45,8 +51,9 @@
                 <ul class="navbar-nav navbar-right">
                     <li class="dropdown"><a href="#" data-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <img alt="image" src="{{ url('') }}" class="rounded-circle mr-1">
-                            <div class="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div>
+                            <img alt="image" src="{{ url('foto-user/' . Auth::user()->foto) }}"
+                                class="rounded-circle mr-1">
+                            <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user()->nama }}</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a href="features-profile.html" class="dropdown-item has-icon">
@@ -59,9 +66,13 @@
                                 <i class="fas fa-cog"></i> Settings
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item has-icon text-danger">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </a>
+                            <a href="javascript:void" class="dropdown-item has-icon text-danger"
+                                onclick="$('#logout').submit();">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Logout </a>
+                            <form action="/logout" id="logout" method="POST" style="display: none;">
+                                @csrf
+                            </form>
                         </div>
                     </li>
                 </ul>
@@ -77,7 +88,7 @@
                     <ul class="sidebar-menu">
                         <li class="menu-header">Dashboard</li>
                         <li class="nav-item {{ request()->is('admin*') ? 'active' : '' }}">
-                            <a href="{{ route('admin') }}" class="nav-link"><i
+                            <a href="/admin" class="nav-link"><i
                                     class="fas fa-th-large"></i><span>Dashboard</span></a>
                         </li>
                         <li class="menu-header">Data</li>
