@@ -29,12 +29,7 @@
     <link rel="stylesheet" href="{{ url('stisla/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ url('stisla/assets/css/components.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <style>
-        #unik {
-            font-size: 13px;
-        }
-
-    </style>
+    @yield('style')
 </head>
 
 <body>

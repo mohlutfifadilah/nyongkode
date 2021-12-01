@@ -1,11 +1,11 @@
 @extends('admin.layouts')
-@section('title', 'Tambah Sub Modul')
+@section('title', 'Edit Sub Modul')
 @section('content')
     <!-- Main Content -->
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Tambah Sub Modul</h1>
+                <h1>Edit Sub Modul</h1>
             </div>
             <div class="section-body mt-1">
                 @if (session('status'))
@@ -19,15 +19,16 @@
                         });
                     </script>
                 @endif
-                <form action="{{ route('submodul.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="/submodul/{{ $modul->id_sub_modul }}" method="POST" enctype="multipart/form-data">
+                    @method('put')
                     @csrf
-                    <input type="hidden" name="id_modul" value="{{ $id_modul }}">
+                    <input type="hidden" name="id_modul" value="{{ $modul->id_modul }}">
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="modul">Nama Sub Modul</label>
                                 <input type="text" class="form-control @error('modul') is-invalid @enderror" id="modul"
-                                    aria-describedby="emailHelp" name="modul" value="{{ old('modul') }}">
+                                    aria-describedby="emailHelp" name="modul" value="{{ $modul->nama_sub_modul }}">
                                 @error('modul')
                                     <small class="text-danger">
                                         {{ $message }}
@@ -37,7 +38,7 @@
                             <div class="form-group">
                                 <label for="gambar">Gambar</label>
                                 <input type="file" class="form-control @error('gambar') is-invalid @enderror" id="emailHelp"
-                                    aria-describedby="emailHelp" name="gambar" value="{{ old('gambar') }}">
+                                    aria-describedby="emailHelp" name="gambar" value="{{ $modul->gambar }}">
                                 <small id="emailHelp" class="form-text text-danger">Optional</small>
                                 @error('gambar')
                                     <small class="text-danger">
@@ -45,13 +46,13 @@
                                     </small>
                                 @enderror
                             </div>
-                            <button type="submit" class="btn btn-success btn-block">Tambah</button>
+                            <button type="submit" class="btn btn-warning btn-block">Edit</button>
                         </div>
                         <div class="col-8">
                             <div class="form-group">
                                 <label for="isi">Isi</label>
                                 <textarea class="form-control @error('isi') is-invalid @enderror" name="isi" id="isi"
-                                    cols="" rows="16" style="height: 100%;">{{ old('isi') }}</textarea>
+                                    cols="" rows="16" style="height: 100%;">{{ $modul->isi }}</textarea>
                                 @error('isi')
                                     <small class="text-danger">
                                         {{ $message }}

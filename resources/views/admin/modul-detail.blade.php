@@ -1,5 +1,22 @@
 @extends('admin.layouts')
 @section('title', 'Detail Modul')
+@section('style')
+    <style>
+        [aria-expanded="false"] .card-header .expanded,
+        [aria-expanded="true"] .card-header .collapsed {
+            display: none;
+        }
+
+        .accordion .card a.card-link:hover,
+        .accordion .card a.card-link:visited,
+        .accordion .card a.card-link:focus {
+            text-decoration: none;
+            background-color: #6777EF;
+            color: #ffffff;
+        }
+
+    </style>
+@endsection
 @section('content')
     <!-- Main Content -->
     <div class="main-content">
@@ -27,100 +44,52 @@
                 @endif
                 <div class="row">
                     <div class="accordion" id="accordionExample">
-                        <div class="card">
-                            <div class="card-header" id="headingOne">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
-                                        data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Collapsible Group Item #1
-                                        <span class="fa-stack fa-sm text-right">
-                                            <i class="fas fa-circle"></i></span>
-                                    </button>
-                                </h2>
-                            </div>
-
-                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                                data-parent="#accordionExample">
-                                <div class="card-body">
-                                    Some placeholder content for the first accordion panel. This panel is shown by default,
-                                    thanks to the <code>.show</code> class.
+                        @foreach ($sub as $s)
+                            <div class="card">
+                                <a class="card-link p-2 font-weight-bold" data-toggle="collapse"
+                                    href="#sub{{ $s->id_sub_modul }}" aria-expanded="false" aria-controls="menuone"
+                                    data-parent="#accordionExample">
+                                    <div class="card-header d-inline">
+                                        #{{ $loop->iteration }} &nbsp; {{ $s->nama_sub_modul }}
+                                        <span class="collapsed float-right mr-4"><i class="fa fa-plus"></i></span>
+                                        <span class="expanded float-right mr-4"><i class="fa fa-minus"></i></span>
+                                    </div>
+                                </a>
+                                <div id="sub{{ $s->id_sub_modul }}" class="collapse" aria-labelledby="headingOne"
+                                    data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        @if ($s->gambar == true)
+                                            <img src="{{ url('gambar/' . $s->gambar) }}" alt="" class="img-fluid">
+                                        @endif
+                                        {{ $s->isi }}
+                                        <br>
+                                        <div class="float-right p-2 mt-4 pb-4">
+                                            <a href="/submodul/{{ $s->id_sub_modul }}/edit" data-toggle="tooltip"
+                                                class="edit btn btn-warning edit">
+                                                Edit
+                                            </a>
+                                            <button type="submit" class="btn btn-danger remove-user"
+                                                data-id="{{ $s->id_sub_modul }}"
+                                                data-action="{{ route('submodul.destroy', $s->id_sub_modul) }}">
+                                                Hapus
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" id="headingTwo">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left collapsed" type="button"
-                                        data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
-                                        aria-controls="collapseTwo">
-                                        Collapsible Group Item #2
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-                                data-parent="#accordionExample">
-                                <div class="card-body">
-                                    Some placeholder content for the second accordion panel. This panel is hidden by
-                                    default.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" id="headingThree">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left collapsed" type="button"
-                                        data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
-                                        aria-controls="collapseThree">
-                                        Collapsible Group Item #3
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                                data-parent="#accordionExample">
-                                <div class="card-body">
-                                    And lastly, the placeholder content for the third and final accordion panel. This panel
-                                    is hidden by default.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <h1>{{ $modul->id_modul }}</h1>
-
-                        <div class="list-group" id="list-tab" role="tablist">
-                            <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list"
-                                href="#list-home" role="tab" aria-controls="home">Home</a>
-                            <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list"
-                                href="#list-profile" role="tab" aria-controls="profile">Profile</a>
-                            <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
-                                href="#list-messages" role="tab" aria-controls="messages">Messages</a>
-                            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
-                                href="#list-settings" role="tab" aria-controls="settings">Settings</a>
-                        </div>
-                    </div>
-                    <div class="col-8">
-                        <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="list-home" role="tabpanel"
-                                aria-labelledby="list-home-list">...</div>
-                            <div class="tab-pane fade" id="list-profile" role="tabpanel"
-                                aria-labelledby="list-profile-list">...</div>
-                            <div class="tab-pane fade" id="list-messages" role="tabpanel"
-                                aria-labelledby="list-messages-list">...</div>
-                            <div class="tab-pane fade" id="list-settings" role="tabpanel"
-                                aria-labelledby="list-settings-list">...</div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
         </section>
     </div>
 @endsection
-{{-- @section('script')
+@section('script')
     <script type="text/javascript">
         $("body").on("click", ".remove-user", function() {
             var current_object = $(this);
             swal({
                 title: "Apakah anda yakin ?",
-                text: "Ingin menghapus Kategori ini",
+                text: "Ingin menghapus Sub Modul ini",
                 type: "warning",
                 showCancelButton: true,
                 dangerMode: true,
@@ -146,4 +115,4 @@
             });
         });
     </script>
-@endsection --}}
+@endsection

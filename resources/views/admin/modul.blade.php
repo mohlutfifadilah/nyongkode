@@ -35,7 +35,8 @@
                                         <i class="fas fa-columns mb-1"></i><span> Kategori :
                                             {{ DB::table('kategori_modul')->where('id_kategori_modul', $m->id_kategori_modul)->value('nama_kategori') }}</span>
                                         <br>
-                                        <i class="fas fa-book-open"></i><span> Sub Modul : </span>
+                                        <i class="fas fa-book-open"></i><span> Sub Modul :
+                                            {{ DB::table('sub_modul')->where('id_modul', $m->id_modul)->count() }}</span>
                                     </p>
                                     <div class="float-right">
                                         <a href="{{ route('modul.show', $m->id_modul) }}" data-toggle="tooltip"

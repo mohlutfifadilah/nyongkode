@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Modul;
 use App\Models\Kategorimodul;
+use App\Models\Submodul;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,7 +20,6 @@ class ModulController extends Controller
     {
         //
         $modul = Modul::all();
-
         return view('admin.modul', [
             'modul' => $modul,
         ]);
@@ -86,8 +86,10 @@ class ModulController extends Controller
     {
         //
         $modul = Modul::find($id);
+        $sub_modul = DB::table('sub_modul')->where('id_modul', $id)->get();
         return view('admin.modul-detail', [
             'modul' => $modul,
+            'sub'   => $sub_modul
         ]);
     }
 
