@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Kategorimodul;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Models\Modul;
 
 class KategoriController extends Controller
 {
@@ -134,8 +135,10 @@ class KategoriController extends Controller
     {
         //
         $kategori  = Kategorimodul::find($id);
-        DB::table('kategori_modul')->where(['id_kategori_modul' => $kategori->id])->delete();
         $kategori->delete();
+
+        Modul::where(['id_kategori_modul' => $kategori->id_kategori_modul])->delete();
+
         return redirect('kategori')->with(['status' => 'Berhasil Dihapus', 'title' => 'Data Kategori', 'type' => 'success']);
     }
 }

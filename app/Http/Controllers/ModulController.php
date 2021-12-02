@@ -102,6 +102,12 @@ class ModulController extends Controller
     public function edit($id)
     {
         //
+        $modul  = Modul::find($id);
+        $kategori = Kategorimodul::all();
+        return view('admin.modul-edit', [
+            'modul' => $modul,
+            'kategori' => $kategori
+        ]);
     }
 
     /**
@@ -114,6 +120,29 @@ class ModulController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $modul     = $request->modul;
+
+        $validator = Validator::make($request->all(), [
+            'kategori'     => 'required',
+            'modul'        => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/modul/' . $id . '/edit')->withErrors($validator)
+                ->withInput()->with(['status' => 'Terjadi Kesalahan', 'title' => 'Data Modul', 'type' => 'error']);
+        }
+
+        $kategori = DB::table('kategori_modul')->where('nama_kategori', $request->kategori)->value('id_kategori_modul');
+
+
+        DB::table('modul')
+            ->where('id_modul', $id)
+            ->update([
+                'id_kategori_modul' => $kategori,
+                'nama_modul'        => $modul,
+            ]);
+
+        return redirect('modul')->with(['status' => 'Berhasil Diubah', 'title' => 'Data Modul', 'type' => 'success']);
     }
 
     /**
@@ -125,5 +154,11 @@ class ModulController extends Controller
     public function destroy($id)
     {
         //
+        $modul  = Modul::find($id);
+        $modul->delete();
+
+        Submodul::where(['id_modul' => $id])->delete();
+
+        return redirect('modul')->with(['status' => 'Berhasil Dihapus', 'title' => 'Data Modul', 'type' => 'success']);
     }
 }

@@ -63,7 +63,7 @@
             var current_object = $(this);
             swal({
                 title: "Apakah anda yakin ?",
-                text: "Ingin menghapus Kategori ini",
+                text: "Semua modul yang termasuk kategori ini akan terhapus juga",
                 type: "warning",
                 showCancelButton: true,
                 dangerMode: true,

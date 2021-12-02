@@ -61,13 +61,13 @@
         </section>
     </div>
 @endsection
-{{-- @section('script')
+@section('script')
     <script type="text/javascript">
         $("body").on("click", ".remove-user", function() {
             var current_object = $(this);
             swal({
                 title: "Apakah anda yakin ?",
-                text: "Ingin menghapus Kategori ini",
+                text: "Sub modul yang termasuk modul ini akan terhapus juga",
                 type: "warning",
                 showCancelButton: true,
                 dangerMode: true,
@@ -93,4 +93,4 @@
             });
         });
     </script>
-@endsection --}}
+@endsection
