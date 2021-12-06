@@ -25,21 +25,10 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
-                                <label for="modul">Nama Sub Modul</label>
+                                <label for="modul">Judul</label>
                                 <input type="text" class="form-control @error('modul') is-invalid @enderror" id="modul"
                                     aria-describedby="emailHelp" name="modul" value="{{ old('modul') }}">
                                 @error('modul')
-                                    <small class="text-danger">
-                                        {{ $message }}
-                                    </small>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="gambar">Gambar</label>
-                                <input type="file" class="form-control @error('gambar') is-invalid @enderror" id="emailHelp"
-                                    aria-describedby="emailHelp" name="gambar" value="{{ old('gambar') }}">
-                                <small id="emailHelp" class="form-text text-danger">Optional</small>
-                                @error('gambar')
                                     <small class="text-danger">
                                         {{ $message }}
                                     </small>
@@ -50,8 +39,8 @@
                         <div class="col-8">
                             <div class="form-group">
                                 <label for="isi">Isi</label>
-                                <textarea class="form-control @error('isi') is-invalid @enderror" name="isi" id="isi"
-                                    cols="" rows="16" style="height: 100%;">{{ old('isi') }}</textarea>
+                                {{-- <textarea id="summernote" name="editordata">{{ old('isi') }}</textarea> --}}
+                                <textarea id="summernote" name="editordata">{{ old('isi') }}</textarea>
                                 @error('isi')
                                     <small class="text-danger">
                                         {{ $message }}
@@ -64,4 +53,27 @@
                 </form>
         </section>
     </div>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('#summernote').summernote({
+                height: 308,
+                dialogsInBody: true,
+                placeholder: 'Tulis disini ...',
+                fontSizes: ['8', '9', '10', '11', '12', '14', '18'],
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline']],
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['insert', ['link', 'picture', 'hr']],
+                    ['view', ['codeview']],
+                ],
+            });
+        });
+    </script>
 @endsection

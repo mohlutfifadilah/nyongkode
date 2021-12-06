@@ -42,6 +42,7 @@ class SubmodulController extends Controller
     public function store(Request $request)
     {
         //
+        dd($request->all());
         if ($request->hasFile('gambar')) {
             $logoImage = $request->file('gambar');
             $gambar = $logoImage->getClientOriginalName();
