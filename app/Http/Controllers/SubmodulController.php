@@ -7,6 +7,7 @@ use App\Models\Submodul;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class SubmodulController extends Controller
 {
@@ -42,19 +43,13 @@ class SubmodulController extends Controller
     public function store(Request $request)
     {
         //
-        dd($request->all());
-        if ($request->hasFile('gambar')) {
-            $logoImage = $request->file('gambar');
-            $gambar = $logoImage->getClientOriginalName();
-        }
-
         $id_modul = $request->id_modul;
         $modul    = $request->modul;
-        $isi      = $request->isi;
+        $isi      = $request->editordata;
 
         $validator = Validator::make($request->all(), [
             'modul'  => 'required',
-            'isi'    => 'required',
+            'editordata'    => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -62,15 +57,34 @@ class SubmodulController extends Controller
                 ->withInput()->with(['status' => 'Terjadi Kesalahan', 'title' => 'Data Sub Modul', 'type' => 'error']);
         }
 
+        $dom = new \DomDocument();
+        $dom->loadHtml($isi, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $image_file = $dom->getElementsByTagName('img');
+
+        if (!File::exists(public_path('uploads'))) {
+            File::makeDirectory(public_path('uploads'));
+        }
+
+        foreach ($image_file as $key => $image) {
+            $data = $image->getAttribute('src');
+
+            list($type, $data) = explode(';', $data);
+            list(, $data) = explode(',', $data);
+
+            $img_data = base64_decode($data);
+            $image_name = "/uploads/" . time() . $key . '.png';
+            $path = public_path() . $image_name;
+            file_put_contents($path, $img_data);
+
+            $image->removeAttribute('src');
+            $image->setAttribute('src', $image_name);
+        }
+
+        $isi = $dom->saveHTML();
         $submodul = new Submodul;
 
         $submodul->id_modul = $id_modul;
         $submodul->nama_sub_modul = $modul;
-        if ($request->hasFile('gambar')) {
-            $submodul->gambar   = $gambar;
-            $tujuan_upload = 'gambar';
-            $logoImage->move($tujuan_upload, $gambar);
-        }
         $submodul->isi      = $isi;
 
         $submodul->save();
@@ -114,17 +128,17 @@ class SubmodulController extends Controller
     public function update(Request $request, $id)
     {
         //
-        if ($request->hasFile('gambar')) {
-            $logoImage = $request->file('gambar');
-            $gambar = $logoImage->getClientOriginalName();
-        }
+        // if ($request->hasFile('gambar')) {
+        //     $logoImage = $request->file('gambar');
+        //     $gambar = $logoImage->getClientOriginalName();
+        // }
 
         $modul    = $request->modul;
-        $isi      = $request->isi;
+        $isi      = $request->editordata;
 
         $validator = Validator::make($request->all(), [
             'modul'  => 'required',
-            'isi'    => 'required',
+            'editordata'    => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -132,29 +146,64 @@ class SubmodulController extends Controller
                 ->withInput()->with(['status' => 'Terjadi Kesalahan', 'title' => 'Data Sub Modul', 'type' => 'error']);
         }
 
-        if ($request->hasFile('gambar')) {
+        $dom = new \DomDocument();
+        $dom->loadHtml($isi, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $image_file = $dom->getElementsByTagName('img');
 
-            $foto = Submodul::where('id_sub_modul', $id)->first();
-            File::delete('gambar/' . $foto->gambar);
-
-            $tujuan_upload = 'gambar';
-            $logoImage->move($tujuan_upload, $gambar);
-
-            DB::table('sub_modul')
-                ->where('id_sub_modul', $id)
-                ->update([
-                    'nama_sub_modul' => $modul,
-                    'isi'            => $isi,
-                    'gambar'         => $gambar
-                ]);
-        } else {
-            DB::table('sub_modul')
-                ->where('id_sub_modul', $id)
-                ->update([
-                    'nama_sub_modul' => $modul,
-                    'isi'            => $isi,
-                ]);
+        if (!File::exists(public_path('uploads'))) {
+            File::makeDirectory(public_path('uploads'));
         }
+
+        foreach ($image_file as $key => $img) {
+            $data = $img->getAttribute('src');
+
+            if (preg_match('/data:image/', $data)) {
+                preg_match('/data:image\/(?<mime>.*?)\;/', $data, $groups);
+                $mime_type = $groups['mime'];
+
+                //convert data 
+                // $dataConvert = base64_decode($data);
+                // $image_name = time() . $key . '.png';
+
+                // store into folder
+                $img_data = base64_decode($data);
+                $image_name = "/uploads/" . time() . $key . '.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $img_data);
+                // Storage::disk('public')->put('/uploads/' . $image_name, $dataConvert);
+                // $path = Storage::url('/uploads/' . $image_name);
+
+                // set path in database 
+                $img->removeattribute('src');
+                $img->setattribute('src', $path);
+            }
+        }
+
+        $isi = $dom->saveHTML();
+
+        // if ($request->hasFile('gambar')) {
+
+        //     $foto = Submodul::where('id_sub_modul', $id)->first();
+        //     File::delete('gambar/' . $foto->gambar);
+
+        //     $tujuan_upload = 'gambar';
+        //     $logoImage->move($tujuan_upload, $gambar);
+
+        //     DB::table('sub_modul')
+        //         ->where('id_sub_modul', $id)
+        //         ->update([
+        //             'nama_sub_modul' => $modul,
+        //             'isi'            => $isi,
+        //             'gambar'         => $gambar
+        //         ]);
+        // } else {
+        DB::table('sub_modul')
+            ->where('id_sub_modul', $id)
+            ->update([
+                'nama_sub_modul' => $modul,
+                'isi'            => $isi,
+            ]);
+        // }
 
 
         return redirect('/modul/' . $request->id_modul)->with(['status' => 'Berhasil Diubah', 'title' => 'Data Sub Modul', 'type' => 'success']);

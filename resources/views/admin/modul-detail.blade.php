@@ -58,10 +58,8 @@
                                 <div id="sub{{ $s->id_sub_modul }}" class="collapse" aria-labelledby="headingOne"
                                     data-parent="#accordionExample">
                                     <div class="card-body">
-                                        @if ($s->gambar == true)
-                                            <img src="{{ url('gambar/' . $s->gambar) }}" alt="" class="img-fluid">
-                                        @endif
-                                        {{ $s->isi }}
+                                        {!! $s->isi !!}
+                                        {{-- {{ $s->isi }} --}}
                                         <br>
                                         <div class="float-right p-2 mt-4 pb-4">
                                             <a href="/submodul/{{ $s->id_sub_modul }}/edit" data-toggle="tooltip"

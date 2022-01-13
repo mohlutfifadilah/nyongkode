@@ -39,7 +39,6 @@
                         <div class="col-8">
                             <div class="form-group">
                                 <label for="isi">Isi</label>
-                                {{-- <textarea id="summernote" name="editordata">{{ old('isi') }}</textarea> --}}
                                 <textarea id="summernote" name="editordata">{{ old('isi') }}</textarea>
                                 @error('isi')
                                     <small class="text-danger">
@@ -73,7 +72,18 @@
                     ['insert', ['link', 'picture', 'hr']],
                     ['view', ['codeview']],
                 ],
+                // callbacks: {
+                //     onImageUpload: function(files) {
+                //         // upload image to server and create imgNode...
+                //         // console.log(files)
+                //         uploadImage(files[0]);
+                //     }
+                // }
             });
+
+            // function uploadImage(files) {
+            //     console.log(files);
+            // }
         });
     </script>
 @endsection
