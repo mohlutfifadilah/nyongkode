@@ -10,30 +10,28 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
         integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Data Science - Lab</title>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-warning">
         <div class="container">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="#">Data Science Lab</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                </ul>
                 <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Beranda <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Tentang</a>
+                    </li>
+                    <li class="nav-item mr-3">
+                        <a class="nav-link" href="#">Kontak</a>
+                    </li>
                     @auth
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
@@ -48,12 +46,35 @@
                             </div>
                         </li>
                     @else
-                        <a href="/login" class="btn btn-md btn-primary">login</a>
+                        <li class="nav-item mr-1">
+                            <a href="/login" class="nav-link btn p-2 pl-2 btn-primary">Login</a>
+                        </li>
+                        <li class="nav-item ml-1">
+                            <a href="/signup" class="nav-link btn p-2 pl-2 btn-primary">Daftar</a>
+                        </li>
                     @endauth
                 </ul>
             </div>
         </div>
     </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="card col-md-8 mt-5" style="width: 18rem;">
+                {{-- <img src="..." class="card-img-top" alt="..."> --}}
+                <div class="card-body">
+                    <h1 class="card-title">Data Science - Lab</h1>
+                    <p class="card-text">Pelajari ilmu-ilmu untuk menjadi data science disini !</p>
+                    {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="d-flex justify-content-center form_container">
+                    <img src="{{ url('gambar/analysis 1.png') }}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->

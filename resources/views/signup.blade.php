@@ -75,7 +75,7 @@
                         @endif
                         <div class="d-flex justify-content-center mt-1">
                             <h2 class="mb-5 mt-0">
-                                Login
+                                Daftar
                             </h2>
                         </div>
                         <div class="d-flex justify-content-center form_container">
@@ -92,19 +92,16 @@
                                     <input class="form-control text-decoration-none" name="password"
                                         placeholder="Password" type="password" value="">
                                 </div>
-                                <div class="form-group">
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" id="customControlInline" type="checkbox">
-                                        <label class="custom-control-label" for="customControlInline">Remember
-                                            me</label>
-                                    </div>
+                                <div class="input-group mb-3">
+                                    <input class="form-control text-decoration-none" name="password" placeholder="Email"
+                                        type="password" value="">
                                 </div>
                                 <div class="d-flex justify-content-center mt-3 login_container">
-                                    <button class="btn login_btn btn-md btn-warning" type="submit">Login</button>
+                                    <button class="btn login_btn btn-md btn-warning" type="submit">Daftar</button>
                                 </div>
                                 <div class="form-group">
                                     <div class="d-flex justify-content-center mt-4">
-                                        <p>Belum punya akun ? <a href="/signup">Daftar</a></p>
+                                        <p>Sudah punya akun ? <a href="/login">Login</a></p>
                                     </div>
                                 </div>
                             </form>

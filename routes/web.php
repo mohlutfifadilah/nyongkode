@@ -34,6 +34,10 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
+Route::get('/signup', function () {
+    return view('signup');
+});
+
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate']);
 Route::post('/logout', [AuthController::class, 'logout']);;
