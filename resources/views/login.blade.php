@@ -23,6 +23,11 @@
             overflow-x: hidden ! important;
         }
 
+        a.login_btn {
+            color: white;
+
+        }
+
         .box {
             height: 525px;
             width: 369px;
@@ -35,8 +40,20 @@
             flex-direction: column;
             padding: 10px;
             /* box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75); */
-            border-radius: 10px;
-            border: 1px black solid;
+            border-radius: 14px;
+            border: 4px #00A19D solid;
+        }
+
+        form .input-group input {
+            text-decoration: none;
+            border-radius: 8px;
+            border: 2px #00A19D solid;
+
+        }
+
+        a.navbar-brand {
+            /* font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+            font-weight: bold; */
         }
 
     </style>
@@ -58,7 +75,7 @@
             <div class="d-flex justify-content-center h-100">
                 <div class="col-md-8 d-flex mb-5">
                     <div class="d-flex my-auto">
-                        <h1 class="d-flex my-auto">
+                        <h1 class="d-flex my-auto display-4 font-weight-bold">
                             Pelajari Ilmu Data Science Kapan Saja Dimana Saja
                         </h1>
                     </div>
@@ -92,15 +109,16 @@
                                     <input class="form-control text-decoration-none" name="password"
                                         placeholder="Password" type="password" value="">
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <div class="custom-control custom-checkbox">
                                         <input class="custom-control-input" id="customControlInline" type="checkbox">
                                         <label class="custom-control-label" for="customControlInline">Remember
                                             me</label>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="d-flex justify-content-center mt-3 login_container">
-                                    <button class="btn login_btn btn-md btn-warning" type="submit">Login</button>
+                                    <button class="btn login_btn btn-md btn-warning text-white"
+                                        type="submit">Login</button>
                                 </div>
                                 <div class="form-group">
                                     <div class="d-flex justify-content-center mt-4">
